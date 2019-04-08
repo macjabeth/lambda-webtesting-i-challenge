@@ -1,22 +1,42 @@
 const enhancer = require('./enhancer.js');
 
 describe('item repair', () => {
-  const item = { name: 'repair', durability: 10, enhancement: 5 };
-
   it('restores durability to 100', () => {
-    expect(enhancer.repair(item)).toHaveProperty('durability', 100);
+    expect(enhancer.repair({ durability: 50 })).toHaveProperty(
+      'durability',
+      100
+    );
   });
 });
 
 describe('item success', () => {
-  const item = { name: 'success', durability: 5, enhancement: 10 };
-
   it('increments enhancement by 1', () => {
-    expect(enhancer.succeed(item)).toHaveProperty('enhancement', 11);
+    expect(enhancer.succeed({ enhancement: 10 })).toHaveProperty(
+      'enhancement',
+      11
+    );
   });
 
   it('does not change if current enhancement is 20', () => {
-    item.enhancement = 20;
-    expect(enhancer.succeed(item)).toEqual(item);
+    expect(enhancer.succeed({ enhancement: 20 })).toHaveProperty(
+      'enhancement',
+      20
+    );
+  });
+});
+
+describe('item failure', () => {
+  it('decreases durability by 5 if enhancement is less than 15', () => {
+    expect(enhancer.fail({ durability: 50, enhancement: 10 })).toHaveProperty(
+      'durability',
+      45
+    );
+  });
+
+  it('decreases durability by 10 if enhancement is greater or equal to 15', () => {
+    expect(enhancer.fail({ durability: 50, enhancement: 15 })).toHaveProperty(
+      'durability',
+      40
+    );
   });
 });
