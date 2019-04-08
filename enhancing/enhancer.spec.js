@@ -40,3 +40,19 @@ describe('item failure', () => {
     );
   });
 });
+
+describe('item get', () => {
+  it('does not modify name if enhancement level is 0', () => {
+    expect(enhancer.get({ name: 'Iron Sword', enhancement: 0 })).toHaveProperty(
+      'name',
+      'Iron Sword'
+    );
+  });
+
+  it('adds enhancement prefix to name if enhancement level is greater than 0', () => {
+    expect(enhancer.get({ name: 'Iron Sword', enhancement: 7 })).toHaveProperty(
+      'name',
+      '[+7] Iron Sword'
+    );
+  });
+});
