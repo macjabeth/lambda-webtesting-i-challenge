@@ -1,12 +1,22 @@
 const enhancer = require('./enhancer.js');
 
-test('repair restores the durability to 100', () => {
-  const expected = 100;
-  const repair = enhancer.repair({
-    name: 'durability test',
-    durability: 10,
-    enhancement: 5
+describe('item repair', () => {
+  const item = { name: 'repair', durability: 10, enhancement: 5 };
+
+  it('restores durability to 100', () => {
+    expect(enhancer.repair(item)).toHaveProperty('durability', 100);
+  });
+});
+
+describe('item success', () => {
+  const item = { name: 'success', durability: 5, enhancement: 10 };
+
+  it('increments enhancement by 1', () => {
+    expect(enhancer.succeed(item)).toHaveProperty('enhancement', 11);
   });
 
-  expect(repair.durability).toBe(expected);
+  it('does not change if current enhancement is 20', () => {
+    item.enhancement = 20;
+    expect(enhancer.succeed(item)).toEqual(item);
+  });
 });
